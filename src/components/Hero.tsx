@@ -1,0 +1,152 @@
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { FiArrowDown } from "react-icons/fi";
+import { useEffect, useState } from "react";
+
+const Hero = () => {
+  const [shapes, setShapes] = useState<Array<{
+    width: number;
+    height: number;
+    top: number;
+    left: number;
+    x: number;
+    y: number;
+    duration: number;
+  }>>([]);
+
+  useEffect(() => {
+    // Generate random shapes only on client
+    const newShapes = [...Array(5)].map(() => ({
+      width: Math.random() * 300 + 50,
+      height: Math.random() * 300 + 50,
+      top: Math.random() * 100,
+      left: Math.random() * 100,
+      x: Math.random() * 100 - 50,
+      y: Math.random() * 100 - 50,
+      duration: Math.random() * 10 + 10,
+    }));
+    setShapes(newShapes);
+
+    // Load Noupe chatbot script
+    const script = document.createElement("script");
+    script.src =
+      "https://www.noupe.com/embed/019d77342f27738d9a33f696dc8d6830006c.js";
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      // Cleanup script when component unmounts
+      if (document.body.contains(script)) {
+        document.body.removeChild(script);
+      }
+    };
+  }, []);
+
+  return (
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 to-blue-900 z-0" />
+
+      {/* Animated background shapes */}
+      <div className="absolute inset-0 z-0 opacity-30">
+        {shapes.map((shape, i) => (
+          <motion.div
+            key={i}
+            className="absolute rounded-full bg-blue-400"
+            style={{
+              width: `${shape.width}px`,
+              height: `${shape.height}px`,
+              top: `${shape.top}%`,
+              left: `${shape.left}%`,
+            }}
+            animate={{
+              x: [0, shape.x],
+              y: [0, shape.y],
+            }}
+            transition={{
+              repeat: Infinity,
+              repeatType: "reverse",
+              duration: shape.duration,
+            }}
+          />
+        ))}
+      </div>
+
+      <div className="container mx-auto px-6 z-10">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-12">
+          <motion.div
+            className="md:w-1/2"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-2">
+              <span className="block text-2xl md:text-3xl font-medium text-gray-400 mb-2">Hi, I&apos;m</span>
+              <span className="text-blue-400 drop-shadow-2xl">Om Chaudhari</span>
+            </h1>
+            <h2 className="text-2xl md:text-4xl font-bold text-white/90 mb-6">
+              Java Backend Developer
+            </h2>
+            <p className="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed max-w-2xl">
+              Specializing in <span className="text-blue-400">Java · Spring Boot · Microservices</span> and <span className="text-blue-400">RESTful APIs</span>. 
+              I architect secure, high-performance backend systems with JWT authentication, Redis caching, and AI integration. 
+              Proven track record of delivering 15+ production APIs and microservices-based solutions.
+            </p>
+
+            <div className="flex flex-col gap-8">
+              <div className="flex flex-wrap gap-4">
+                <a
+                  href="#contact"
+                  className="px-8 py-4 bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold rounded-2xl transition-all hover:scale-105 shadow-xl shadow-yellow-500/20"
+                >
+                  Get in Touch
+                </a>
+                <a
+                  href="#projects"
+                  className="px-8 py-4 border border-white/20 hover:border-yellow-500 text-white hover:text-yellow-500 font-bold rounded-2xl transition-all backdrop-blur-sm"
+                >
+                  View My Work
+                </a>
+              </div>
+
+
+            </div>
+          </motion.div>
+
+          <motion.div
+            className="md:w-1/2 relative"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <div className="relative w-64 h-64 md:w-80 md:h-80 mx-auto rounded-full overflow-hidden border-4 border-gray-800 shadow-xl">
+              <Image
+                src="/om-profile.png"
+                alt="Profile Photo"
+                fill
+                style={{ objectFit: "cover" }}
+                priority
+              />
+            </div>
+          </motion.div>
+        </div>
+
+        <motion.div
+          className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
+          animate={{ y: [0, 10, 0] }}
+          transition={{ repeat: Infinity, duration: 1.5 }}
+        >
+          <a
+            href="#about"
+            className="flex flex-col items-center text-gray-400 hover:text-blue-400 transition-colors"
+          >
+            <span className="mb-2">Scroll Down</span>
+            <FiArrowDown size={24} />
+          </a>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+export default Hero;
