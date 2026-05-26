@@ -49,8 +49,9 @@ const VideoSection = () => {
               onError={handleVideoError}
               controls
               preload="auto"
+              crossOrigin="anonymous"
             >
-              <source src="https://github.com/omchaudhari553/Portfolio/releases/download/v1.0/OmPortfolio.mp4" type="video/mp4" />
+              <source src="https://cdn.jsdelivr.net/gh/omchaudhari553/Portfolio@main/public/OmPortfolio.mp4" type="video/mp4" />
               <source src="/OmPortfolio.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
