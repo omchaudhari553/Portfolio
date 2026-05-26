@@ -48,7 +48,9 @@ const VideoSection = () => {
               muted
               onError={handleVideoError}
               controls
+              preload="auto"
             >
+              <source src="https://github.com/omchaudhari553/Portfolio/releases/download/v1.0/OmPortfolio.mp4" type="video/mp4" />
               <source src="/OmPortfolio.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
