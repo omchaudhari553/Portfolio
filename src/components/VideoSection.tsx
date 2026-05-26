@@ -48,6 +48,7 @@ const VideoSection = () => {
               muted
               onError={handleVideoError}
             >
+              <source src="https://raw.githubusercontent.com/omchaudhari553/Portfolio/main/public/OmPortfolio.mp4" type="video/mp4" />
               <source src="/OmPortfolio.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
