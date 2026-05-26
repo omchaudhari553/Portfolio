@@ -47,6 +47,7 @@ const VideoSection = () => {
               playsInline
               muted
               onError={handleVideoError}
+              controls
             >
               <source src="/OmPortfolio.mp4" type="video/mp4" />
               Your browser does not support the video tag.
