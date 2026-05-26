@@ -35,7 +35,7 @@ const VideoSection = () => {
         <div className="relative flex justify-center items-center w-full aspect-video md:aspect-[21/9]">
           <video
             ref={videoRef}
-            className="w-8/5 h-5/5 object-contain rounded-[40px]"
+            className="w-[500%] h-full object-contain rounded-[40px]"
             autoPlay
             loop
             playsInline
