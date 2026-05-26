@@ -26,20 +26,6 @@ const Hero = () => {
       duration: Math.random() * 10 + 10,
     }));
     setShapes(newShapes);
-
-    // Load Noupe chatbot script
-    const script = document.createElement("script");
-    script.src =
-      "https://www.noupe.com/embed/019d77342f27738d9a33f696dc8d6830006c.js";
-    script.async = true;
-    document.body.appendChild(script);
-
-    return () => {
-      // Cleanup script when component unmounts
-      if (document.body.contains(script)) {
-        document.body.removeChild(script);
-      }
-    };
   }, []);
 
   return (
