@@ -1,27 +1,30 @@
 import { motion } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const VideoSection = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoError, setVideoError] = useState(false);
 
   useEffect(() => {
     const playVideo = async () => {
       if (videoRef.current) {
         try {
-          // Attempting to play unmuted as requested
-          videoRef.current.muted = false;
-          await videoRef.current.play();
-        } catch (error) {
-          console.log("Autoplay with sound was blocked. This is a browser security feature.", error);
-          // Fallback: Mute and play if unmuted play fails
           videoRef.current.muted = true;
           await videoRef.current.play();
+        } catch (error) {
+          console.log("Video play error:", error);
+          setVideoError(true);
         }
       }
     };
 
     playVideo();
   }, []);
+
+  const handleVideoError = () => {
+    console.error("Video failed to load");
+    setVideoError(true);
+  };
 
   return (
     <section className="relative w-full overflow-hidden bg-black">
@@ -33,17 +36,22 @@ const VideoSection = () => {
         transition={{ duration: 1 }}
       >
         <div className="relative flex justify-center items-center w-full aspect-video md:aspect-[21/9]">
-          <video
-            ref={videoRef}
-            className="w-[500%] h-full object-contain rounded-[40px]"
-            autoPlay
-            loop
-            playsInline
-            muted
-          >
-            <source src="/OmPortfolio.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
+          {videoError ? (
+            <div className="text-white text-center">Video loading failed</div>
+          ) : (
+            <video
+              ref={videoRef}
+              className="w-[500%] h-full object-contain rounded-[40px]"
+              autoPlay
+              loop
+              playsInline
+              muted
+              onError={handleVideoError}
+            >
+              <source src="/OmPortfolio.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          )}
 
           {/* Subtle overlay to blend with surrounding sections */}
           <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-gray-900 to-transparent pointer-events-none" />
